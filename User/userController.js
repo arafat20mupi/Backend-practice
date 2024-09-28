@@ -6,7 +6,7 @@ const { response } = require('express');
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
-
+        console.log(req.body)
         if (!email || !password) {
             return res.status(400).json({ message: 'Please provide all required fields' });
         }
@@ -18,13 +18,12 @@ exports.register = async (req, res) => {
             }
         )
         await user.save();
-        response.status(201).send('Successfully User Registered');
+        res.status(201).json({"massage":'Successfully User Registered'});
     }
     catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
-
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -33,9 +32,8 @@ exports.login = async (req, res) => {
         }
 
         const user = await UserSchema.findOne({ email });
-        const passwords = await user.comparePassword(password);
 
-        if (!user || !passwords) {
+        if (!user ) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
@@ -44,7 +42,7 @@ exports.login = async (req, res) => {
         res.json({ token, message: 'Login Succesful' });
     }
     catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({ error: error.message })
     }
 }
 
