@@ -1,5 +1,7 @@
 PORT=5000
+
 DB_URL="your mongodb url"
+
 SecretKey= use secrat key
 
 ### genarate Secrate Key 
