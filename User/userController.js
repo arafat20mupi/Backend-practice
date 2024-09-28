@@ -1,15 +1,17 @@
 const UserSchema = require('../User/userSchema');
 const jwt = require('jsonwebtoken');
 const { generateToken } = require('../utilis/authutilis');
-const { response } = require('express');
+const  response  = require('express');
 
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
         console.log(req.body)
+
         if (!email || !password) {
             return res.status(400).json({ message: 'Please provide all required fields' });
         }
+
         const user = new UserSchema(
             {
                 name,
@@ -18,12 +20,14 @@ exports.register = async (req, res) => {
             }
         )
         await user.save();
-        res.status(201).json({"massage":'Successfully User Registered'});
+        
+        res.status(201).send('Successfully User Registered');
     }
     catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
+
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
